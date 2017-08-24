@@ -27,7 +27,7 @@ library(dplyr)  #  for manipulating data frames
 
 ```r
 library(lattice)   #for lattice plot, last question of the project
-opts_chunk$set(echo = TRUE)
+#opts_chunk$set(echo = TRUE)
 options(digits = 2)
 ```
 
