@@ -1,16 +1,18 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
+output:   
+    html_document :
     keep_md: true
 ---
 
 
 
 ```{r setup}
-knitr::opts_chunk$set(echo = TRUE)
+
+library(knitr)
 library(dplyr)  #  for manipulating data frames
 library(lattice)   #for lattice plot, last question of the project
+opts_chunk$set(echo = TRUE)
 options(digits = 2)
 ```
 
