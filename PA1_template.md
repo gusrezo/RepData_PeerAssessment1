@@ -1,36 +1,6 @@
 # Reproducible Research: Peer Assessment 1
 
 
-
-
-```r
-library(knitr)
-library(dplyr)  #  for manipulating data frames
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-```
-
-```
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
-library(lattice)   #for lattice plot, last question of the project
-#opts_chunk$set(echo = TRUE)
-options(digits = 2)
-```
-
 ## Loading and preprocessing the data 
 
 If it's not available in the working directory, the data is downloaded from the URL stated in the project instructions and unzipped.
@@ -80,7 +50,7 @@ legend('topright', lty = 1, lwd = 2, col = c("blue", "red"),
 ![](PA1_template_files/figure-html/totalbyday-1.png)<!-- -->
 
 ```
-## mean:  9354
+## mean:  9354.23
 ```
 
 ```
@@ -120,10 +90,10 @@ max_interval_hour <- paste(substr(max_interval_hour,1,2), ":", substr(max_interv
 ```
 
 ```
-##  number of steps in the interval:  206
+##  number of steps in the interval:  206.1698
 ```
 
-The interval with the highest mean number of steps ( 206.17) .
+The interval with the highest mean number of steps ( 206.1698113) .
 This is the 5 minutes interval that starts at  08:35.
 
 ## Imputing missing values
@@ -145,7 +115,7 @@ cat ("percentage of missing values:", 100*total_missing/nrow(data),"%")
 ```
 
 ```
-## percentage of missing values: 13 %
+## percentage of missing values: 13.11475 %
 ```
 
 A simple strategy is to fill the missing values with the average number of steps for the same interval, since we observe in the "average number of steps by 5 minutes interval" previously plotted a different pattern depending on the time of the day. 
@@ -182,16 +152,15 @@ legend('topright', lty = 1, lwd = 2, col = c("blue", "red"),
 
 
 ```
-## mean:  10766
+## mean:  10766.19
 ```
 
 ```
-## median:  10766
+## median:  10766.19
 ```
 
 The plot shows a more  symmetric distribution than with the original dataset (in fact median = mean), 
-and these values of mean and median are higher than in the original dataset (mean and median of 9354.23 and 1.04\times 10^{4}). The frequency of the bracket around the mean increases and the frequency of the lowest values decreases.
-
+and these values of mean and median are higher than in the original dataset (mean and median of 9354.23 and 1.0395\times 10^{4}). The frequency of the bracket around the mean increases and the frequency of the lowest values decreases.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
@@ -209,7 +178,7 @@ steps_by_interval2 <- data2 %>% group_by(interval,daytype) %>%
     summarize(meansteps= mean(steps, na.rm = TRUE))
 
 xyplot( meansteps ~  interval | daytype, data = steps_by_interval2, type="l",layout=c(1,2), 
-        ylab = "Number of steps" )
+       ylab = "Number of steps" )
 ```
 
 ![](PA1_template_files/figure-html/weekends-1.png)<!-- -->

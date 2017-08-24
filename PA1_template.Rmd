@@ -5,17 +5,11 @@ output:
     keep_md: true
 ---
 
-
-
-```{r setup}
-
-library(knitr)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)  #  for manipulating data frames
 library(lattice)   #for lattice plot, last question of the project
-#opts_chunk$set(echo = TRUE)
-options(digits = 2)
 ```
-
 ## Loading and preprocessing the data 
 
 If it's not available in the working directory, the data is downloaded from the URL stated in the project instructions and unzipped.
@@ -156,7 +150,6 @@ cat("median: ", median_steps2)
 The plot shows a more  symmetric distribution than with the original dataset (in fact median = mean), 
 and these values of mean and median are higher than in the original dataset (mean and median of `r mean_steps` and `r median_steps`). The frequency of the bracket around the mean increases and the frequency of the lowest values decreases.
 
-
 ## Are there differences in activity patterns between weekdays and weekends?
 
 A column is added indicating where the date of the observation is a weekday or a weekend day. The
@@ -173,7 +166,7 @@ steps_by_interval2 <- data2 %>% group_by(interval,daytype) %>%
     summarize(meansteps= mean(steps, na.rm = TRUE))
 
 xyplot( meansteps ~  interval | daytype, data = steps_by_interval2, type="l",layout=c(1,2), 
-        ylab = "Number of steps" )
+       ylab = "Number of steps" )
 
 ```
 
