@@ -4,7 +4,7 @@
 
 
 ```r
-knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
 library(dplyr)  #  for manipulating data frames
 ```
 
@@ -27,12 +27,13 @@ library(dplyr)  #  for manipulating data frames
 
 ```r
 library(lattice)   #for lattice plot, last question of the project
+opts_chunk$set(echo = TRUE)
 options(digits = 2)
 ```
 
 ## Loading and preprocessing the data 
 
-If not available in the working directory, the data is downloaded from the URL stated in the project instructions and unzipped.
+If it's not available in the working directory, the data is downloaded from the URL stated in the project instructions and unzipped.
 
 The data (.csv file) is read and the column _date_  is transformed to a more suitable format for later manipulation (Date).
 

@@ -1,7 +1,7 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
-output:   
-    html_document :
+output:
+  html_document:
     keep_md: true
 ---
 
@@ -18,7 +18,7 @@ options(digits = 2)
 
 ## Loading and preprocessing the data 
 
-If not available in the working directory, the data is downloaded from the URL stated in the project instructions and unzipped.
+If it's not available in the working directory, the data is downloaded from the URL stated in the project instructions and unzipped.
 
 The data (.csv file) is read and the column _date_  is transformed to a more suitable format for later manipulation (Date).
 
