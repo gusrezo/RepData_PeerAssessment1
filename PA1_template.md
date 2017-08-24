@@ -108,22 +108,22 @@ ylab = "number of steps", main  = "average number of steps by 5 minutes interval
 ```r
 max_interval <- steps_by_interval$interval[which.max(steps_by_interval$meansteps)]
 max_steps_by_interval <- max(steps_by_interval$meansteps)
-max_interval_hour <- max_interval %/% 60
-max_interval_min <- max_interval %% 60
+max_interval_hour <- as.character(max_interval)
+max_interval_hour <- ifelse(nchar(max_interval_hour) ==3, paste("0", max_interval_hour, sep = ""), max_interval_hour)
+max_interval_hour <- paste(substr(max_interval_hour,1,2), ":", substr(max_interval_hour,3,4),sep="")
 ```
 
 
 ```
-##  interval with maximum average number of steps:  835
+##  interval with maximum average number of steps starts at:  08:35
 ```
 
 ```
 ##  number of steps in the interval:  206
 ```
 
-The interval with the highest mean number of steps ( 206.17) has the value 
-835.
-This is the 5 minutes interval that starts at 13:55.
+The interval with the highest mean number of steps ( 206.17) .
+This is the 5 minutes interval that starts at  08:35.
 
 ## Imputing missing values
 
