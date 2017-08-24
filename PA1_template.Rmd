@@ -90,9 +90,9 @@ max_interval_min <- max_interval %% 60
 ```
 
 ```{r maxinterval, echo =FALSE}
-cat(" interval with maximum average number of steps: ", max_steps_by_interval)
+cat(" interval with maximum average number of steps: ", max_interval)
 
-cat(" number of steps in the interval: ", max_interval )
+cat(" number of steps in the interval: ",  max_steps_by_interval )
 ```
 
 The interval with the highest mean number of steps ( `r max_steps_by_interval`) has the value 

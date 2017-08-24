@@ -114,11 +114,11 @@ max_interval_min <- max_interval %% 60
 
 
 ```
-##  interval with maximum average number of steps:  206
+##  interval with maximum average number of steps:  835
 ```
 
 ```
-##  number of steps in the interval:  835
+##  number of steps in the interval:  206
 ```
 
 The interval with the highest mean number of steps ( 206.17) has the value 
