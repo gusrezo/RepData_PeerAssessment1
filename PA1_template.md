@@ -1,15 +1,31 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 
-```{r setup}
+
+```r
 knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)  #  for manipulating data frames
+```
+
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
 library(lattice)   #for lattice plot, last question of the project
 options(digits = 2)
 ```
@@ -21,7 +37,8 @@ If not available in the working directory, the data is downloaded from the URL s
 The data (.csv file) is read and the column _date_  is transformed to a more suitable format for later manipulation (Date).
 
 
-```{r loading}
+
+```r
 fileURL <-
     "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip" 
 destfile="repdata_data_activity.zip"    
@@ -34,7 +51,6 @@ unzipfile <- "activity.csv"
 data <- read.csv(unzipfile)
 
 data$date <- as.Date(as.character(data$date), "%Y-%m-%d")
-
 ```
 
 Further discussion is based on the data downloaded on 24th Aug 2017.
@@ -44,8 +60,8 @@ Further discussion is based on the data downloaded on 24th Aug 2017.
 
 The total number of steps per day is calculated and plotted in a histogram. 
 
-```{r totalbyday}
 
+```r
 steps_by_day <- data %>% group_by(date) %>% summarize(totalsteps= sum(steps, na.rm = TRUE))
 hist(steps_by_day$totalsteps, xlab= "steps", main  = "total number of steps by day")
 
@@ -58,76 +74,94 @@ legend('topright', lty = 1, lwd = 2, col = c("blue", "red"),
           legend = c(paste('Mean: ', mean_steps),
           paste('Median: ', median_steps))
         )
+```
 
+![](PA1_template_files/figure-html/totalbyday-1.png)<!-- -->
 
 ```
-```{r statistics1, echo =FALSE}
-cat("mean: ", mean_steps)
-cat("median: ", median_steps)
+## mean:  9354
+```
 
+```
+## median:  10395
 ```
 
 The mean is lower than the median, pointing to a left skewed distribution -it can be checked in the
-histogram that there's a higher frequency in the lower range that includes 0 steps than in the upper ranges. In fact, there's a percentage of `r zero_steps_days`% days with 0 steps -one possible explanation would be that the owners didn't take the monitoring devices with them.
+histogram that there's a higher frequency in the lower range that includes 0 steps than in the upper ranges. In fact, there's a percentage of 13.11% days with 0 steps -one possible explanation would be that the owners didn't take the monitoring devices with them.
 
 
 ## What is the average daily activity pattern?
 
 The average number of steps by 5-minute intervals is calculated and plotted. 
 
-```{r interval}
 
+```r
 steps_by_interval <- data %>% group_by(interval) %>% 
     summarize(meansteps= mean(steps, na.rm = TRUE))
 
 with(steps_by_interval, plot(interval, meansteps, type="l", xlab= "interval", 
 ylab = "number of steps", main  = "average number of steps by 5 minutes interval"))
+```
 
+![](PA1_template_files/figure-html/interval-1.png)<!-- -->
+
+```r
 max_interval <- steps_by_interval$interval[which.max(steps_by_interval$meansteps)]
 max_steps_by_interval <- max(steps_by_interval$meansteps)
 max_interval_hour <- max_interval %/% 60
 max_interval_min <- max_interval %% 60
 ```
 
-```{r maxinterval, echo =FALSE}
-cat(" interval with maximum average number of steps: ", max_steps_by_interval)
 
-cat(" number of steps in the interval: ", max_interval )
+```
+##  interval with maximum average number of steps:  206
 ```
 
-The interval with the highest mean number of steps ( `r max_steps_by_interval`) has the value 
-`r max_interval`.
-This is the 5 minutes interval that starts at `r max_interval_hour`:`r max_interval_min`.
+```
+##  number of steps in the interval:  835
+```
+
+The interval with the highest mean number of steps ( 206.17) has the value 
+835.
+This is the 5 minutes interval that starts at 13:55.
 
 ## Imputing missing values
 
 There's a number of missing values in the data read from the file. 
 
-```{r missing}
 
+```r
 total_missing <- sum(is.na(data$steps))
 cat ("total missing values:", total_missing)
-cat ("percentage of missing values:", 100*total_missing/nrow(data),"%")
+```
 
+```
+## total missing values: 2304
+```
+
+```r
+cat ("percentage of missing values:", 100*total_missing/nrow(data),"%")
+```
+
+```
+## percentage of missing values: 13 %
 ```
 
 A simple strategy is to fill the missing values with the average number of steps for the same interval, since we observe in the "average number of steps by 5 minutes interval" previously plotted a different pattern depending on the time of the day. 
 
 
 
-```{r fillmissing}
 
+```r
 data2 <- merge(data, steps_by_interval)
 data2$steps <- ifelse(is.na(data2$steps), data2$meansteps, data2$steps )
-
 ```
 
 This modified data is plotted in a histogram and the mean and median are compared to the one of the
 original dataset. 
 
-```{r totalbyday2}
 
-
+```r
 steps_by_day2 <- data2 %>% group_by(date) %>% summarize(totalsteps= sum(steps, na.rm = TRUE))
 hist(steps_by_day2$totalsteps, xlab= "steps", main  = "total number steps by day")
 
@@ -141,17 +175,21 @@ legend('topright', lty = 1, lwd = 2, col = c("blue", "red"),
           legend = c(paste('Mean: ', mean_steps2),
           paste('Median: ', median_steps2))
         )
-
 ```
 
-```{r statistics2, echo =FALSE}
-cat("mean: ", mean_steps2)
-cat("median: ", median_steps2)
+![](PA1_template_files/figure-html/totalbyday2-1.png)<!-- -->
 
+
+```
+## mean:  10766
+```
+
+```
+## median:  10766
 ```
 
 The plot shows a more  symmetric distribution than with the original dataset (in fact median = mean), 
-and these values of mean and median are higher than in the original dataset (mean and median of `r mean_steps` and `r median_steps`). The frequency of the bracket around the mean increases and the frequency of the lowest values decreases.
+and these values of mean and median are higher than in the original dataset (mean and median of 9354.23 and 1.04\times 10^{4}). The frequency of the bracket around the mean increases and the frequency of the lowest values decreases.
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
@@ -159,8 +197,8 @@ and these values of mean and median are higher than in the original dataset (mea
 A column is added indicating where the date of the observation is a weekday or a weekend day. The
 comparison is performed using numbers for every weekday, taking into account that 0-Sunday, 1-Monday.... 6-Saturday (not done with day names since they are locale language depending)
 
-```{r weekends}
 
+```r
 data2 <- data2 %>%
   mutate(daytype = ifelse(((weekdayasnumber =format(data2$date,"%w")) == "0" | weekdayasnumber== "6"),
                           "weekend", "weekday"))
@@ -171,8 +209,9 @@ steps_by_interval2 <- data2 %>% group_by(interval,daytype) %>%
 
 xyplot( meansteps ~  interval | daytype, data = steps_by_interval2, type="l",layout=c(1,2), 
         ylab = "Number of steps" )
-
 ```
+
+![](PA1_template_files/figure-html/weekends-1.png)<!-- -->
 
 The plots shows how the pattern is different from weekdays to weekends: weekdays the activity starts earlier, weekends there's a higher average number of steps at late hours.
 
